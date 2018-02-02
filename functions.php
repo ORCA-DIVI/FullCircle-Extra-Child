@@ -1,10 +1,18 @@
 <?php
-
-function theme_enqueue_styles() {
-	wp_enqueue_style( 'extra', get_template_directory_uri() . '/style.css' );
-	wp_enqueue_script( 'font-awesome-5', get_template_directory_uri() . 'vendor/fontawesome/fontawesome-all.js', array(), '', true );
+add_action( 'wp_enqueue_scripts', 'my_theme_enqueue_styles' );
+function my_theme_enqueue_styles() {
+ 
+    $parent_style = 'extra';
+ 
+    wp_enqueue_style( $parent_style, get_template_directory_uri() . '/style.css' );
+    wp_enqueue_style( 'extra-child-style',
+        get_stylesheet_directory_uri() . '/style.css',
+        array( $parent_style ),
+        wp_get_theme()->get('Version')
+	);
+	
+	wp_enqueue_script( 'font-awesome-5', get_stylesheet_directory_uri() . '/vendor/fontawesome/fontawesome-all.js', array(), '', false );
 }
-add_action( 'wp_enqueue_scripts', 'theme_enqueue_styles' );
 
 /* Disable star ratings */
 function disable_ratings() { return false; }
@@ -37,7 +45,16 @@ function twitter_card_type( $card_type, $query_type, $object_id ) {
 }
 add_filter('twitter_card_type', 'twitter_card_type', 10, 3);
 
-// Add widgets to child theme
+// ===============================================
+// Add widgets to child theme.
+// ===============================================
 define('FULLCIRCLE_CHILD_THEME_DIRECTORY', get_stylesheet_directory());
+
 include(FULLCIRCLE_CHILD_THEME_DIRECTORY . '/widgets/asufse-endorsed-footer-widget.php');
 include(FULLCIRCLE_CHILD_THEME_DIRECTORY . '/widgets/asufse-socialicons-footer-widget.php');
+
+// ===============================================
+// Add supporting functions for External_News CPT, if the plugin is installed.
+// ===============================================
+
+include(get_stylesheet_directory() . '/includes/externalnews-misc.php');
