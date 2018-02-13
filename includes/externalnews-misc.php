@@ -1,14 +1,6 @@
 <?php
 /* Included functions for External_News CPT. Borrows functions from parent theme's "timeline" view. */
 
-function debug_to_console( $data ) {
-    $output = $data;
-    if ( is_array( $output ) )
-        $output = implode( ',', $output);
-
-    echo "<script>console.log( 'Debug Objects: " . $output . "' );</script>";
-}
-
 // ------------------------
 // Fancy code for the timeline presentation for In the News Sections.
 // ------------------------
