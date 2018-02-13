@@ -63,38 +63,37 @@ get_header(); ?>
 								?>
 								<li>
 									<article class="post">
-										<?php
-										$externallink = carbon_get_the_post_meta( 'itn_mainurl' );
-									 	if (empty($externallink)) {
-											 $externallink = get_permalink();
-										};
-
-										$thumb = et_extra_get_post_thumb(array(
-											'size'    => 'extra-image-medium',
-											'a_class' => array( 'post-thumbnail' ),
-											'permalink' => $externallink,
-										));
-
-										if ( $thumb ) {
-											echo $thumb;
-										} ?>
-
+										<div class="post-meta">
+											<h4>
+												<?php
+													$terms = get_the_terms( $post->ID , 'publication' );
+													if (!empty($terms)) {
+														echo '<i class="far fa-fw fa-newspaper"></i>';
+														foreach ( $terms as $term ) {echo $term->name;}
+													};
+												?>
+												<i class="far fa-fw fa-calendar-alt"></i><?php echo get_the_date( 'F j, Y', $post->ID); ?>
+											</h4>
+										</div>
 										<div class="entry-content">
 											<h3 class="post-title"><a href="<?php echo $externallink; ?>" title="<?php the_title_attribute(); ?>" target="_blank"><?php the_title(); ?></a></h3>
-											<div class="post-meta">
-												<h4>
-													<?php
-														$terms = get_the_terms( $post->ID , 'publication' );
-														if (!empty($terms)) {
-															echo '<i class="far fa-fw fa-newspaper"></i>';
-															foreach ( $terms as $term ) {echo $term->name;}
-														};
-													?>
-												</h4>
-												<h4>
-													<?php the_date('F j, Y', '<i class="far fa-fw fa-calendar-alt"></i>&nbsp;', ''); ?>
-												</h4>
-											</div>
+											<!-- Thumbnail -->
+											<?php
+											$externallink = carbon_get_the_post_meta( 'itn_mainurl' );
+											if (empty($externallink)) {
+												$externallink = get_permalink();
+											};
+
+											$thumb = et_extra_get_post_thumb(array(
+												'size'    => 'extra-image-medium',
+												'a_class' => array( 'post-thumbnail' ),
+												'permalink' => $externallink,
+											));
+
+											if ( $thumb ) {
+												echo $thumb;
+											} ?>
+
 											<div class="post-content">
 												<?php 
 												$complex = carbon_get_the_post_meta( 'itn_use_excerpt' );
