@@ -66,20 +66,20 @@ get_header(); ?>
 										<div class="post-meta">
 											<h4>
 												<?php
-													$terms = get_the_terms( $post->ID , 'publication' );
+													$terms = get_the_terms( get_the_ID() , 'publication' );
 													if (!empty($terms)) {
 														echo '<i class="far fa-fw fa-newspaper"></i>';
 														foreach ( $terms as $term ) {echo $term->name;}
 													};
 												?>
-												<i class="far fa-fw fa-calendar-alt"></i><?php echo get_the_date( 'F j, Y', $post->ID); ?>
+												<i class="far fa-fw fa-calendar-alt"></i><?php echo get_the_date( 'F j, Y'); ?>
 											</h4>
 										</div>
 										<div class="entry-content">
+											<?php $externallink = carbon_get_the_post_meta( 'itn_mainurl' ); ?>
 											<h3 class="post-title"><a href="<?php echo $externallink; ?>" title="<?php the_title_attribute(); ?>" target="_blank"><?php the_title(); ?></a></h3>
 											<!-- Thumbnail -->
 											<?php
-											$externallink = carbon_get_the_post_meta( 'itn_mainurl' );
 											if (empty($externallink)) {
 												$externallink = get_permalink();
 											};
